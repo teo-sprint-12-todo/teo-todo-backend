@@ -18,6 +18,7 @@ import java.util.List;
 public class CategoryServiceImpl implements CategoryService{
     private final UserRepository userRepository;
     private final CategoryRepository categoryRepository;
+    private final CategoryRepositorySupport categoryRepositorySupport;
 
     @Override
     public Integer addCategory(String email, AddCategoryReq addCategoryReq) {
@@ -43,7 +44,9 @@ public class CategoryServiceImpl implements CategoryService{
 
     @Override
     public List<CategoryListRes> getAllCategory(String email) {
-        return null;
+        User user = userRepository.findByEmail(email).get();
+
+        return categoryRepositorySupport.getAllCategory(user.getId());
     }
 
 
