@@ -17,7 +17,6 @@ import teosprint.todo.response.StatusCode;
 @RequiredArgsConstructor
 @RequestMapping("/v1/user")
 public class UserController {
-    private final JwtTokenProvider jwtTokenProvider;
     private final UserService userService;
 
     @PostMapping("/sign-up")
