@@ -1,4 +1,4 @@
-package teosprint.todo.domain.todo.data.dto;
+package teosprint.todo.domain.todo.data.dto.res;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -4,7 +4,7 @@ import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 import org.springframework.stereotype.Repository;
-import teosprint.todo.domain.todo.data.dto.CategoryListRes;
+import teosprint.todo.domain.todo.data.dto.res.CategoryListRes;
 import teosprint.todo.domain.todo.data.entity.Category;
 import teosprint.todo.domain.todo.data.entity.QCategory;
 

@@ -1,10 +1,8 @@
 package teosprint.todo.domain.todo.service;
 
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
-import teosprint.todo.domain.todo.data.dto.AddCategoryReq;
-import teosprint.todo.domain.todo.data.dto.CategoryListRes;
-import teosprint.todo.domain.todo.data.dto.UpdateCategoryReq;
+import teosprint.todo.domain.todo.data.dto.req.AddCategoryReq;
+import teosprint.todo.domain.todo.data.dto.res.CategoryListRes;
+import teosprint.todo.domain.todo.data.dto.req.UpdateCategoryReq;
 
 import java.util.*;
 
