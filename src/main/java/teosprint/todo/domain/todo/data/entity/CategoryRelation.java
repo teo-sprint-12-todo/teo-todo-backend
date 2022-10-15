@@ -1,6 +1,7 @@
 package teosprint.todo.domain.todo.data.entity;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -30,6 +31,7 @@ public class CategoryRelation {
     @ManyToOne
     private Category category;
 
+    @Builder
     public CategoryRelation(Todo todo, Category category) {
         this.todo = todo;
         this.category = category;

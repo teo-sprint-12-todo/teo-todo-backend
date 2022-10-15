@@ -1,6 +1,7 @@
 package teosprint.todo.domain.todo.data.entity;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -25,9 +26,10 @@ public class GoalRelation {
     private Todo todo;
 
     @ManyToOne
-    private Category goal;
+    private Goal goal;
 
-    public GoalRelation(Todo todo, Category goal) {
+    @Builder
+    public GoalRelation(Todo todo, Goal goal) {
         this.todo = todo;
         this.goal = goal;
     }

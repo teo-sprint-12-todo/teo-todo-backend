@@ -5,7 +5,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.joda.time.LocalDate;
+import java.time.LocalDate;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -13,10 +13,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import teosprint.todo.domain.user.data.entity.User;
 
 import javax.persistence.*;
-import javax.websocket.Encoder;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Getter
@@ -32,6 +29,12 @@ public class Todo {
 
     @ManyToOne
     private User user;
+
+    @ManyToOne
+    private Category category;
+
+    @ManyToOne
+    private Goal goal;
 
     @Column(nullable = false, length = 200)
     private String text;

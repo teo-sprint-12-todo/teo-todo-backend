@@ -43,9 +43,9 @@ public class GoalController {
 
     @GetMapping("/list")
     public ResponseEntity update(@RequestHeader("Authorization") String token) {
-        List<GoalListRes> categoryList = goalService.getAllGoal(jwtTokenProvider.getUserEmail(token.substring(7)));
+        List<GoalListRes> goalList = goalService.getAllGoal(jwtTokenProvider.getUserEmail(token.substring(7)));
 
-        return new ResponseEntity(DefaultRes.res(StatusCode.OK, "목표 목록 반환 완료", categoryList), HttpStatus.OK);
+        return new ResponseEntity(DefaultRes.res(StatusCode.OK, "목표 목록 반환 완료", goalList), HttpStatus.OK);
     }
 
 }
