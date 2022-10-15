@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import teosprint.todo.domain.todo.data.dto.req.AddTodoReq;
+import teosprint.todo.domain.todo.data.dto.req.CheckTodoReq;
 import teosprint.todo.domain.todo.data.dto.req.UpdateGoalReq;
 import teosprint.todo.domain.todo.data.dto.req.UpdateTodoReq;
 import teosprint.todo.domain.todo.data.dto.res.GoalListRes;
@@ -45,5 +46,13 @@ public class TodoController {
         List<TodoListRes> todoList = todoService.getAllTodo(jwtTokenProvider.getUserEmail(token.substring(7)));
 
         return new ResponseEntity(DefaultRes.res(StatusCode.OK, "TODO 목록 반환 완료", todoList), HttpStatus.OK);
+    }
+
+    @PostMapping("/check")
+    public ResponseEntity check(@RequestBody CheckTodoReq checkTodoReq) {
+        Boolean result = todoService.checkTodo(checkTodoReq.getId());
+
+        return result ? new ResponseEntity(DefaultRes.res(StatusCode.OK, "True로 변경 완료", result), HttpStatus.OK)
+                : new ResponseEntity(DefaultRes.res(StatusCode.OK, "False로 변경 완료", result), HttpStatus.OK);
     }
 }
