@@ -1,6 +1,7 @@
 package teosprint.todo.domain.todo.controller;
 
 import io.swagger.annotations.Api;
+import io.swagger.models.auth.In;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +19,7 @@ import teosprint.todo.response.DefaultRes;
 import teosprint.todo.response.StatusCode;
 
 import java.util.List;
+import java.util.Optional;
 
 @Api(tags="todo", value = "TODO 관련")
 @RestController
@@ -42,11 +44,37 @@ public class TodoController {
     }
 
     @GetMapping("/list")
-    public ResponseEntity update(@RequestHeader("Authorization") String token) {
-        List<TodoListRes> todoList = todoService.getAllTodo(jwtTokenProvider.getUserEmail(token.substring(7)));
+    public ResponseEntity mainList(@RequestHeader("Authorization") String token,
+                                 @RequestParam("category") Optional<String> categoryStr) {
+        String str = categoryStr.orElse("-1");
+        Integer categoryNum = Integer.parseInt(str);
+
+        List<TodoListRes> todoList = todoService.getAllTodo(jwtTokenProvider.getUserEmail(token.substring(7)), categoryNum);
 
         return new ResponseEntity(DefaultRes.res(StatusCode.OK, "TODO 목록 반환 완료", todoList), HttpStatus.OK);
     }
+
+    @GetMapping("/list/calendar/{year}/{month}")
+    public ResponseEntity listOfMonth(@RequestHeader("Authorization") String token, @PathVariable("year") String yearStr, @PathVariable("month") String monthStr) {
+        Integer year = Integer.parseInt(yearStr);
+        Integer month = Integer.parseInt(monthStr);
+
+        List<TodoListRes> todoList = todoService.getCalendarTodoList(jwtTokenProvider.getUserEmail(token.substring(7)), year, month);
+
+        return new ResponseEntity(DefaultRes.res(StatusCode.OK, "TODO 목록 반환 완료", todoList), HttpStatus.OK);
+    }
+
+    @GetMapping("/list/day/{year}/{month}/{day}")
+    public ResponseEntity listOfDay(@RequestHeader("Authorization") String token, @PathVariable("year") String yearStr, @PathVariable("month") String monthStr, @PathVariable("day") String dayStr) {
+        Integer year = Integer.parseInt(yearStr);
+        Integer month = Integer.parseInt(monthStr);
+        Integer day = Integer.parseInt(dayStr);
+
+        List<TodoListRes> todoList = todoService.getDayTodoList(jwtTokenProvider.getUserEmail(token.substring(7)), year, month, day);
+
+        return new ResponseEntity(DefaultRes.res(StatusCode.OK, "TODO 목록 반환 완료", todoList), HttpStatus.OK);
+    }
+
 
     @PostMapping("/check")
     public ResponseEntity check(@RequestBody CheckTodoReq checkTodoReq) {

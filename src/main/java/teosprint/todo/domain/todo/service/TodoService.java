@@ -11,5 +11,7 @@ public interface TodoService {
     public Integer updateTodo(String email, UpdateTodoReq updateTodoReq);
     public void deleteTodo(Integer id);
     public Boolean checkTodo(Integer id);
-    public List<TodoListRes> getAllTodo(String email);
+    public List<TodoListRes> getAllTodo(String email, Integer categoryId);
+    public List<TodoListRes> getCalendarTodoList(String email, Integer year, Integer month);
+    public List<TodoListRes> getDayTodoList(String email, Integer year, Integer month, Integer day);
 }
