@@ -15,7 +15,7 @@ import teosprint.todo.response.StatusCode;
 
 import java.util.*;
 
-@Api(tags="user", value = "카테고리 관련")
+@Api(tags="category", value = "카테고리 관련")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/v1/todo/category")

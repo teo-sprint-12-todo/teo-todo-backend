@@ -11,6 +11,7 @@ import teosprint.todo.domain.todo.data.dto.req.UpdateCategoryReq;
 import teosprint.todo.domain.todo.data.dto.req.UpdateGoalReq;
 import teosprint.todo.domain.todo.data.dto.res.CategoryListRes;
 import teosprint.todo.domain.todo.data.dto.res.GoalListRes;
+import teosprint.todo.domain.todo.data.dto.res.GoalStatListRes;
 import teosprint.todo.domain.todo.service.CategoryService;
 import teosprint.todo.domain.todo.service.GoalService;
 import teosprint.todo.domain.user.filter.JwtTokenProvider;
@@ -46,6 +47,14 @@ public class GoalController {
         List<GoalListRes> goalList = goalService.getAllGoal(jwtTokenProvider.getUserEmail(token.substring(7)));
 
         return new ResponseEntity(DefaultRes.res(StatusCode.OK, "목표 목록 반환 완료", goalList), HttpStatus.OK);
+    }
+
+    @GetMapping("/stat/list/{isEnd}")
+    public ResponseEntity statList(@RequestHeader("Authorization") String token, @PathVariable("isEnd") String isEndStr) {
+        Boolean isEnd = Boolean.parseBoolean(isEndStr);
+        List<GoalStatListRes> goalList = goalService.getStatGoalList(jwtTokenProvider.getUserEmail(token.substring(7)), isEnd);
+
+        return new ResponseEntity(DefaultRes.res(StatusCode.OK, "목표 통계 목록 반환 완료", goalList), HttpStatus.OK);
     }
 
 }

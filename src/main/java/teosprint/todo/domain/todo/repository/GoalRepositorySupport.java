@@ -1,5 +1,7 @@
 package teosprint.todo.domain.todo.repository;
 
+import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.types.Expression;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.data.jpa.repository.Modifying;
@@ -7,12 +9,12 @@ import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.springframework.stereotype.Repository;
 import teosprint.todo.domain.todo.data.dto.res.CategoryListRes;
 import teosprint.todo.domain.todo.data.dto.res.GoalListRes;
-import teosprint.todo.domain.todo.data.entity.Category;
-import teosprint.todo.domain.todo.data.entity.Goal;
+import teosprint.todo.domain.todo.data.dto.res.GoalStatListRes;
+import teosprint.todo.domain.todo.data.entity.*;
 
 import org.springframework.transaction.annotation.Transactional;
-import teosprint.todo.domain.todo.data.entity.QCategory;
-import teosprint.todo.domain.todo.data.entity.QGoal;
+import teosprint.todo.domain.todo.data.entity.sub.QGoalDoneQuery;
+import teosprint.todo.domain.todo.data.entity.sub.QGoalTotalQuery;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -48,6 +50,40 @@ public class GoalRepositorySupport extends QuerydslRepositorySupport {
                 .join(c)
                 .on(g.category.id.eq(c.id))
                 .where(c.user.id.eq(userId))
+                .fetch();
+    }
+
+    /**
+     *     private Integer goalIid;
+     *     private String goalName;
+     *     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+     *     private LocalDateTime startDate;
+     *     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+     *     private LocalDate endDate;
+     *     private Integer totalCnt;
+     *     private Integer doneCnt;
+     *     private Double percent;
+     * */
+    public List<GoalStatListRes> getStatGoalList(Integer userId, Boolean isEnd) {
+        QTodo t = QTodo.todo;
+        QCategory c = QCategory.category;
+        QGoal g = QGoal.goal;
+        QGoalTotalQuery gtq = QGoalTotalQuery.goalTotalQuery;
+        QGoalDoneQuery gdq = QGoalDoneQuery.goalDoneQuery;
+
+        BooleanBuilder builder = new BooleanBuilder();
+        if (!isEnd) {
+            builder.and(g.endDate.after(LocalDate.now()).or(g.endDate.eq(LocalDate.now())));
+        } else {
+            builder.and(g.endDate.before(LocalDate.now()));
+        }
+
+        return jpaQueryFactory.select(Projections.constructor(GoalStatListRes.class, g.id, g.name, g.createdAt, g.endDate,
+                                                    gtq.total.coalesce(0), gdq.done.coalesce(0), gdq.done.multiply(100).divide(gtq.total).coalesce(0)))
+                .from(g)
+                .leftJoin(gtq).on(gtq.id.eq(g.id))
+                .leftJoin(gdq).on(gdq.id.eq(g.id))
+                .where(builder)
                 .fetch();
     }
 }
