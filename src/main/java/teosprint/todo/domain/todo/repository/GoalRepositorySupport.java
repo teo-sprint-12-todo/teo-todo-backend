@@ -53,17 +53,6 @@ public class GoalRepositorySupport extends QuerydslRepositorySupport {
                 .fetch();
     }
 
-    /**
-     *     private Integer goalIid;
-     *     private String goalName;
-     *     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-     *     private LocalDateTime startDate;
-     *     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-     *     private LocalDate endDate;
-     *     private Integer totalCnt;
-     *     private Integer doneCnt;
-     *     private Double percent;
-     * */
     public List<GoalStatListRes> getStatGoalList(Integer userId, Boolean isEnd) {
         QTodo t = QTodo.todo;
         QCategory c = QCategory.category;
@@ -85,5 +74,21 @@ public class GoalRepositorySupport extends QuerydslRepositorySupport {
                 .leftJoin(gdq).on(gdq.id.eq(g.id))
                 .where(builder)
                 .fetch();
+    }
+
+    public GoalStatListRes getStatCurrGoal(Integer userId, Integer goalId) {
+        QTodo t = QTodo.todo;
+        QCategory c = QCategory.category;
+        QGoal g = QGoal.goal;
+        QGoalTotalQuery gtq = QGoalTotalQuery.goalTotalQuery;
+        QGoalDoneQuery gdq = QGoalDoneQuery.goalDoneQuery;
+
+        return jpaQueryFactory.select(Projections.constructor(GoalStatListRes.class, g.id, g.name, g.createdAt, g.endDate,
+                        gtq.total.coalesce(0), gdq.done.coalesce(0), gdq.done.multiply(100).divide(gtq.total).coalesce(0)))
+                .from(g)
+                .leftJoin(gtq).on(gtq.id.eq(g.id))
+                .leftJoin(gdq).on(gdq.id.eq(g.id))
+                .where(g.id.eq(goalId))
+                .fetch().get(0);
     }
 }

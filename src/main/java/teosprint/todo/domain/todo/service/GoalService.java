@@ -5,6 +5,7 @@ import teosprint.todo.domain.todo.data.dto.req.AddGoalReq;
 import teosprint.todo.domain.todo.data.dto.req.UpdateCategoryReq;
 import teosprint.todo.domain.todo.data.dto.req.UpdateGoalReq;
 import teosprint.todo.domain.todo.data.dto.res.CategoryListRes;
+import teosprint.todo.domain.todo.data.dto.res.GoalCurrStatRes;
 import teosprint.todo.domain.todo.data.dto.res.GoalListRes;
 import teosprint.todo.domain.todo.data.dto.res.GoalStatListRes;
 
@@ -16,4 +17,5 @@ public interface GoalService {
     public void deleteGoal(Integer id);
     public List<GoalListRes> getAllGoal(String email);
     public List<GoalStatListRes> getStatGoalList(String email, Boolean isDone);
+    public GoalCurrStatRes getStatCurrGoal(String email, Integer goalId);
 }

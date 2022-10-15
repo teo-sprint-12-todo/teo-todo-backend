@@ -66,7 +66,7 @@ public class TodoRepositorySupport extends QuerydslRepositorySupport {
             builder.and(t.category.id.eq(categoryId));
         }
 
-        return jpaQueryFactory.select(Projections.constructor(TodoListRes.class, t.id, t.category.id, c.name, t.goal.id, g.name, t.importance, t.text, t.createdAt, t.endDate))
+        return jpaQueryFactory.select(Projections.constructor(TodoListRes.class, t.id, t.category.id, c.name, t.goal.id, g.name, t.importance, t.text, t.createdAt, t.endDate, t.isDone))
                 .from(t)
                 .leftJoin(c).on(t.category.id.eq(c.id))
                 .leftJoin(g).on(t.goal.id.eq(g.id))
@@ -87,7 +87,7 @@ public class TodoRepositorySupport extends QuerydslRepositorySupport {
         builder.and(t.endDate.year().eq(year));
         builder.and(t.endDate.month().eq(month));
 
-        return jpaQueryFactory.select(Projections.constructor(TodoListRes.class, t.id, t.category.id, c.name, t.goal.id, g.name, t.importance, t.text, t.createdAt, t.endDate))
+        return jpaQueryFactory.select(Projections.constructor(TodoListRes.class, t.id, t.category.id, c.name, t.goal.id, g.name, t.importance, t.text, t.createdAt, t.endDate, t.isDone))
                 .from(t)
                 .leftJoin(c).on(t.category.id.eq(c.id))
                 .leftJoin(g).on(t.goal.id.eq(g.id))
@@ -108,7 +108,27 @@ public class TodoRepositorySupport extends QuerydslRepositorySupport {
         builder.and(t.endDate.month().eq(month));
         builder.and(t.endDate.dayOfMonth().eq(day));
 
-        return jpaQueryFactory.select(Projections.constructor(TodoListRes.class, t.id, t.category.id, c.name, t.goal.id, g.name, t.importance, t.text, t.createdAt, t.endDate))
+        return jpaQueryFactory.select(Projections.constructor(TodoListRes.class, t.id, t.category.id, c.name, t.goal.id, g.name, t.importance, t.text, t.createdAt, t.endDate, t.isDone))
+                .from(t)
+                .leftJoin(c).on(t.category.id.eq(c.id))
+                .leftJoin(g).on(t.goal.id.eq(g.id))
+                .where(builder)
+                .orderBy(t.endDate.asc())
+                .fetch();
+
+    }
+
+
+    public List<TodoListRes> getAllTodoByGoal(Integer userId, Integer goalId) {
+        QTodo t = QTodo.todo;
+        QCategory c = QCategory.category;
+        QGoal g = QGoal.goal;
+
+        BooleanBuilder builder = new BooleanBuilder();
+        builder.and(t.user.id.eq(userId));
+        builder.and(t.goal.id.eq(goalId));
+
+        return jpaQueryFactory.select(Projections.constructor(TodoListRes.class, t.id, t.category.id, c.name, t.goal.id, g.name, t.importance, t.text, t.createdAt, t.endDate, t.isDone))
                 .from(t)
                 .leftJoin(c).on(t.category.id.eq(c.id))
                 .leftJoin(g).on(t.goal.id.eq(g.id))

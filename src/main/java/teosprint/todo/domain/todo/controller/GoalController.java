@@ -10,6 +10,7 @@ import teosprint.todo.domain.todo.data.dto.req.AddGoalReq;
 import teosprint.todo.domain.todo.data.dto.req.UpdateCategoryReq;
 import teosprint.todo.domain.todo.data.dto.req.UpdateGoalReq;
 import teosprint.todo.domain.todo.data.dto.res.CategoryListRes;
+import teosprint.todo.domain.todo.data.dto.res.GoalCurrStatRes;
 import teosprint.todo.domain.todo.data.dto.res.GoalListRes;
 import teosprint.todo.domain.todo.data.dto.res.GoalStatListRes;
 import teosprint.todo.domain.todo.service.CategoryService;
@@ -55,6 +56,15 @@ public class GoalController {
         List<GoalStatListRes> goalList = goalService.getStatGoalList(jwtTokenProvider.getUserEmail(token.substring(7)), isEnd);
 
         return new ResponseEntity(DefaultRes.res(StatusCode.OK, "목표 통계 목록 반환 완료", goalList), HttpStatus.OK);
+    }
+
+    @GetMapping("/stat/id/{id}")
+    public ResponseEntity statCurr(@RequestHeader("Authorization") String token, @PathVariable("id") String idStr) {
+        Integer id = Integer.parseInt(idStr);
+
+        GoalCurrStatRes goalStat = goalService.getStatCurrGoal(jwtTokenProvider.getUserEmail(token.substring(7)), id);
+
+        return new ResponseEntity(DefaultRes.res(StatusCode.OK, "목표 통계 반환 완료", goalStat), HttpStatus.OK);
     }
 
 }

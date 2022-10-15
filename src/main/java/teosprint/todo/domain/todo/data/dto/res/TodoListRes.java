@@ -21,11 +21,12 @@ public class TodoListRes {
     private LocalDateTime startDate;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate endDate;
+    private Boolean isDone;
 
     public TodoListRes() {
     }
 
-    public TodoListRes(Integer id, Integer categoryId, String categoryName, Integer goalId, String goalName, Integer importance, String text, LocalDateTime startDate, LocalDate endDate) {
+    public TodoListRes(Integer id, Integer categoryId, String categoryName, Integer goalId, String goalName, Integer importance, String text, LocalDateTime startDate, LocalDate endDate, Boolean isDone) {
         this.id = id;
         this.categoryId = categoryId;
         this.categoryName = categoryName;
@@ -35,5 +36,6 @@ public class TodoListRes {
         this.text = text;
         this.startDate = startDate;
         this.endDate = endDate;
+        this.isDone = isDone;
     }
 }
