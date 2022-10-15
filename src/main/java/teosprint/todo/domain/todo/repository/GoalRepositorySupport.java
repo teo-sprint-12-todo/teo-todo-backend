@@ -9,10 +9,11 @@ import teosprint.todo.domain.todo.data.dto.res.CategoryListRes;
 import teosprint.todo.domain.todo.data.dto.res.GoalListRes;
 import teosprint.todo.domain.todo.data.entity.Category;
 import teosprint.todo.domain.todo.data.entity.Goal;
+
+import org.springframework.transaction.annotation.Transactional;
 import teosprint.todo.domain.todo.data.entity.QCategory;
 import teosprint.todo.domain.todo.data.entity.QGoal;
 
-import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.util.List;
 

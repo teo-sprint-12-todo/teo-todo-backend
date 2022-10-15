@@ -26,36 +26,26 @@ public class TodoRepositorySupport extends QuerydslRepositorySupport {
      *         this.endDate = endDate;
      *         */
     @Transactional
-    public void updateTodo(Integer id, String text, Integer importance, LocalDate endDate) {
+    public void updateTodo(Integer id, String text, Integer importance, LocalDate endDate, Category category, Goal goal) {
         QTodo t = QTodo.todo;
 
         jpaQueryFactory.update(t)
                 .set(t.text, text)
                 .set(t.importance, importance)
                 .set(t.endDate, endDate)
+                .set(t.category, category)
+                .set(t.goal, goal)
                 .where(t.id.eq(id))
                 .execute();
     }
 
-    // 카테고리 업데이트
     @Transactional
-    public void updateCategoryRelation(Integer todoId, Category category) {
-        QCategoryRelation cr = QCategoryRelation.categoryRelation;
+    public void checkTodo(Integer id, Boolean toThis) {
+        QTodo t = QTodo.todo;
 
-        jpaQueryFactory.update(cr)
-                .set(cr.category, category)
-                .where(cr.todo.id.eq(todoId))
-                .execute();
-    }
-
-    // 목표 업데이트
-    @Transactional
-    public void updateGoalRelation(Integer todoId, Goal goal) {
-        QGoalRelation gr = QGoalRelation.goalRelation;
-
-        jpaQueryFactory.update(gr)
-                .set(gr.goal, goal)
-                .where(gr.todo.id.eq(todoId))
+        jpaQueryFactory.update(t)
+                .set(t.isDone, toThis)
+                .where(t.id.eq(id))
                 .execute();
     }
 }

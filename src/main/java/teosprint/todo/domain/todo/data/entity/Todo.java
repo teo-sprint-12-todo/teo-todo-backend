@@ -53,8 +53,10 @@ public class Todo {
     private LocalDateTime createdAt;
 
     @Builder
-    public Todo(User user, String text, Integer importance, LocalDate endDate, Boolean isDone) {
+    public Todo(User user, Category category, Goal goal, String text, Integer importance, LocalDate endDate, Boolean isDone) {
         this.user = user;
+        this.category = category;
+        this.goal = goal;
         this.text = text;
         this.importance = importance;
         this.endDate = endDate;
