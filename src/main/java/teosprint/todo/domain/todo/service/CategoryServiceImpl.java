@@ -7,6 +7,7 @@ import teosprint.todo.domain.todo.data.dto.res.CategoryListRes;
 import teosprint.todo.domain.todo.data.dto.req.UpdateCategoryReq;
 import teosprint.todo.domain.todo.data.entity.Category;
 import teosprint.todo.domain.todo.repository.CategoryRepository;
+import teosprint.todo.domain.todo.repository.CategoryRepositorySupport;
 import teosprint.todo.domain.user.data.entity.User;
 import teosprint.todo.domain.user.repository.UserRepository;
 

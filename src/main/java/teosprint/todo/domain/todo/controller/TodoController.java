@@ -12,7 +12,7 @@ import teosprint.todo.domain.user.data.dto.SignUpDto;
 import teosprint.todo.response.DefaultRes;
 import teosprint.todo.response.StatusCode;
 
-@Api(tags="user", value = "TODO 관련")
+@Api(tags="todo", value = "TODO 관련")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/v1/todo/todo")
