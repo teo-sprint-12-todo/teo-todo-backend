@@ -1,9 +1,10 @@
 package teosprint.todo.domain.review.data.entity;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.joda.time.LocalDate;
+import java.time.LocalDate;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -31,8 +32,8 @@ public class Review {
     @Column(nullable = false, columnDefinition = "TEXT")
     private String text;
 
-    @Column(nullable = false)
-    private Integer periodType;
+    @Column(nullable = false, length = 20)
+    private String periodType;
 
     @Column(nullable = false)
     private LocalDate startDate;
@@ -44,7 +45,8 @@ public class Review {
     @Column
     private LocalDateTime createdAt;
 
-    public Review(User user, String text, Integer periodType, LocalDate startDate, LocalDate endDate) {
+    @Builder
+    public Review(User user, String text, String periodType, LocalDate startDate, LocalDate endDate) {
         this.user = user;
         this.text = text;
         this.periodType = periodType;
