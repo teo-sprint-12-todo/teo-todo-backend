@@ -1,20 +1,19 @@
 package teosprint.todo.domain.review.repository;
 
-import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.core.types.Projections;
+import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 import org.springframework.stereotype.Repository;
 import teosprint.todo.domain.review.data.dto.res.ReviewListRes;
 import teosprint.todo.domain.review.data.entity.QReview;
 import teosprint.todo.domain.review.data.entity.Review;
-import teosprint.todo.domain.todo.data.dto.res.TodoListRes;
-import teosprint.todo.domain.todo.data.entity.Category;
-import teosprint.todo.domain.todo.data.entity.QCategory;
-import teosprint.todo.domain.todo.data.entity.QGoal;
 import teosprint.todo.domain.todo.data.entity.QTodo;
 
 import java.util.List;
+
+import static com.querydsl.core.types.ExpressionUtils.count;
 
 @Repository
 public class ReviewRepositorySupport extends QuerydslRepositorySupport {
@@ -25,21 +24,31 @@ public class ReviewRepositorySupport extends QuerydslRepositorySupport {
         this.jpaQueryFactory = jpaQueryFactory;
     }
 
-    public List<ReviewListRes> getAllReviewByPeriodType(Integer userId, Integer periodType) {
+    public List<ReviewListRes> getAllReviewByPeriodType(Integer userId, String periodType) {
         QReview r = QReview.review;
         QTodo t = QTodo.todo;
 
-//        return jpaQueryFactory.select(Projections.constructor(TodoListRes.class, t.id, t.category.id, c.name, t.goal.id, g.name, t.importance, t.text, t.createdAt, t.endDate, t.isDone))
-//                .from(t)
-//                .leftJoin(c).on(t.category.id.eq(c.id))
-//                .leftJoin(g).on(t.goal.id.eq(g.id))
-//                .where(builder)
-//                .orderBy(t.endDate.asc())
-//                .fetch();
-
-        return jpaQueryFactory.select(Projections.constructor(ReviewListRes.class))
+        List<ReviewListRes> res = jpaQueryFactory.select(Projections.constructor(ReviewListRes.class, r.id, r.periodType, r.text, r.startDate, r.endDate,
+                                                                                ExpressionUtils.as(
+                                                                                        JPAExpressions.select(count(t.id))
+                                                                                                .from(t)
+                                                                                                .where(t.endDate.between(r.startDate, r.endDate)),
+                                                                                        "totalCnt"),
+                                                                                ExpressionUtils.as(
+                                                                                        JPAExpressions.select(count(t.id))
+                                                                                                .from(t)
+                                                                                                .where(t.endDate.between(r.startDate, r.endDate).and(t.isDone.eq(true))),
+                                                                                        "doneCnt"),
+                                                                                r.id))
                 .from(r)
+                .where(r.periodType.eq(periodType))
                 .fetch();
+
+        for (ReviewListRes review: res) {
+            review.setPercent( review.getDoneCnt() * 100 / review.getTotalCnt() );
+        }
+
+        return  res;
     }
 
 }

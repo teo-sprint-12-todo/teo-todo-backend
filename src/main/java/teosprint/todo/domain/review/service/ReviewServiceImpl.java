@@ -10,7 +10,6 @@ import teosprint.todo.domain.review.data.dto.res.ReviewListRes;
 import teosprint.todo.domain.review.data.entity.Review;
 import teosprint.todo.domain.review.repository.ReviewRepository;
 import teosprint.todo.domain.review.repository.ReviewRepositorySupport;
-import teosprint.todo.domain.todo.data.dto.req.AddCategoryReq;
 import teosprint.todo.domain.user.data.entity.User;
 import teosprint.todo.domain.user.repository.UserRepository;
 
@@ -42,8 +41,9 @@ public class ReviewServiceImpl implements ReviewService{
 
     @Override
     public List<ReviewListRes> getReviewList(String email, String periodType) {
+        User user = userRepository.findByEmail(email).get();
 
-        return null;
+        return reviewRepositorySupport.getAllReviewByPeriodType(user.getId(), periodType);
     }
 
     private LocalDate getLastEndDate(LocalDate nowDate) {
