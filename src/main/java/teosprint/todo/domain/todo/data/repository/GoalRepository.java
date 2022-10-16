@@ -1,4 +1,4 @@
-package teosprint.todo.domain.todo.repository;
+package teosprint.todo.domain.todo.data.repository;
 
 import java.time.LocalDate;
 import org.springframework.data.jpa.repository.JpaRepository;

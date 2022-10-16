@@ -1,4 +1,4 @@
-package teosprint.todo.domain.todo.repository;
+package teosprint.todo.domain.todo.data.repository;
 
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;

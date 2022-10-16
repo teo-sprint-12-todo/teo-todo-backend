@@ -21,8 +21,11 @@ public class UserController {
 
     @PostMapping("/sign-up")
     public ResponseEntity register(@RequestBody SignUpDto signUpDto) {
-        Integer idx = userService.signUp(signUpDto);
+        if (!signUpDto.getPassword().equals(signUpDto.getPasswordCheck())) {
+            return new ResponseEntity(DefaultRes.res(StatusCode.OK, "비밀번호 확인과 일치하지 않습니다", null), HttpStatus.OK);
+        }
 
+        Integer idx = userService.signUp(signUpDto);
         return new ResponseEntity(DefaultRes.res(StatusCode.OK, "회원 가입 완료", idx), HttpStatus.OK);
     }
 
@@ -51,6 +54,13 @@ public class UserController {
         String explain = exists ? "사용 불가능한 이메일" : "사용 가능한 이메일";
 
         return new ResponseEntity(DefaultRes.res(StatusCode.OK, explain, !exists), HttpStatus.OK);
+    }
+
+    // 나의 티어 (관련 프로세스 추가 시 수정 필요)
+    @GetMapping("/my/tier")
+    public ResponseEntity checkTier(@RequestHeader("Authorization") String token) {
+
+        return new ResponseEntity(DefaultRes.res(StatusCode.OK, "티어 반환 완료", 1), HttpStatus.OK);
     }
 
 }
