@@ -7,7 +7,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import teosprint.todo.domain.user.data.dto.SignInDto;
 import teosprint.todo.domain.user.data.dto.SignUpDto;
-import teosprint.todo.domain.user.filter.JwtTokenProvider;
 import teosprint.todo.domain.user.service.UserService;
 import teosprint.todo.response.DefaultRes;
 import teosprint.todo.response.StatusCode;

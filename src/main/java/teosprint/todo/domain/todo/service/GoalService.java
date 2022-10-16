@@ -1,10 +1,7 @@
 package teosprint.todo.domain.todo.service;
 
-import teosprint.todo.domain.todo.data.dto.req.AddCategoryReq;
 import teosprint.todo.domain.todo.data.dto.req.AddGoalReq;
-import teosprint.todo.domain.todo.data.dto.req.UpdateCategoryReq;
 import teosprint.todo.domain.todo.data.dto.req.UpdateGoalReq;
-import teosprint.todo.domain.todo.data.dto.res.CategoryListRes;
 import teosprint.todo.domain.todo.data.dto.res.GoalCurrStatRes;
 import teosprint.todo.domain.todo.data.dto.res.GoalListRes;
 import teosprint.todo.domain.todo.data.dto.res.GoalStatListRes;

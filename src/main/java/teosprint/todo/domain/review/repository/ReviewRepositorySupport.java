@@ -17,7 +17,6 @@ import teosprint.todo.domain.todo.data.entity.Todo;
 
 import java.util.List;
 
-import static com.querydsl.core.types.ExpressionUtils.all;
 import static com.querydsl.core.types.ExpressionUtils.count;
 
 @Repository

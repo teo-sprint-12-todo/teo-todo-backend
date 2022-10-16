@@ -6,7 +6,6 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import org.springframework.stereotype.Service;
 import teosprint.todo.domain.review.data.dto.req.AddReviewReq;
-import teosprint.todo.domain.review.data.dto.res.ReviewLastRes;
 import teosprint.todo.domain.review.data.dto.res.ReviewListRes;
 import teosprint.todo.domain.review.data.entity.Review;
 import teosprint.todo.domain.review.repository.ReviewRepository;

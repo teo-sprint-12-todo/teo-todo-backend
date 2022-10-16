@@ -1,19 +1,15 @@
 package teosprint.todo.domain.todo.controller;
 
 import io.swagger.annotations.Api;
-import io.swagger.models.auth.In;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import teosprint.todo.domain.todo.data.dto.req.AddTodoReq;
 import teosprint.todo.domain.todo.data.dto.req.CheckTodoReq;
-import teosprint.todo.domain.todo.data.dto.req.UpdateGoalReq;
 import teosprint.todo.domain.todo.data.dto.req.UpdateTodoReq;
-import teosprint.todo.domain.todo.data.dto.res.GoalListRes;
 import teosprint.todo.domain.todo.data.dto.res.TodoListRes;
 import teosprint.todo.domain.todo.service.TodoService;
-import teosprint.todo.domain.user.data.dto.SignUpDto;
 import teosprint.todo.domain.user.filter.JwtTokenProvider;
 import teosprint.todo.response.DefaultRes;
 import teosprint.todo.response.StatusCode;

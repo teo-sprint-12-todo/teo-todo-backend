@@ -1,13 +1,10 @@
 package teosprint.todo.domain.todo.data.repository;
 
 import com.querydsl.core.BooleanBuilder;
-import com.querydsl.core.types.Expression;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 import org.springframework.stereotype.Repository;
-import teosprint.todo.domain.todo.data.dto.res.CategoryListRes;
 import teosprint.todo.domain.todo.data.dto.res.GoalListRes;
 import teosprint.todo.domain.todo.data.dto.res.GoalStatListRes;
 import teosprint.todo.domain.todo.data.entity.*;

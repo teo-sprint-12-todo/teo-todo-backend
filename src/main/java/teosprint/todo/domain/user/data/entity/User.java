@@ -1,7 +1,6 @@
 package teosprint.todo.domain.user.data.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import io.swagger.annotations.Contact;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;

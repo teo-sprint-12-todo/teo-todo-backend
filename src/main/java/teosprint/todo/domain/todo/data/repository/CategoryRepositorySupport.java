@@ -8,7 +8,6 @@ import org.springframework.transaction.annotation.Transactional;
 import teosprint.todo.domain.todo.data.dto.res.CategoryListRes;
 import teosprint.todo.domain.todo.data.entity.Category;
 import teosprint.todo.domain.todo.data.entity.QCategory;
-import teosprint.todo.domain.todo.data.entity.QGoal;
 
 import java.util.*;
 
