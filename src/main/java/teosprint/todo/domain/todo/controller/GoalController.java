@@ -43,6 +43,13 @@ public class GoalController {
         return new ResponseEntity(DefaultRes.res(StatusCode.OK, "목표 수정 완료", idx), HttpStatus.OK);
     }
 
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity delete(@RequestHeader("Authorization") String token,  @PathVariable("id") String idStr) {
+        goalService.deleteGoal(Integer.parseInt(idStr));
+
+        return new ResponseEntity(DefaultRes.res(StatusCode.OK, "목표 삭제 완료", idStr), HttpStatus.OK);
+    }
+
     @GetMapping("/list")
     public ResponseEntity update(@RequestHeader("Authorization") String token) {
         List<GoalListRes> goalList = goalService.getAllGoal(jwtTokenProvider.getUserEmail(token.substring(7)));

@@ -91,4 +91,23 @@ public class GoalRepositorySupport extends QuerydslRepositorySupport {
                 .where(g.id.eq(goalId))
                 .fetch().get(0);
     }
+
+
+    @Transactional
+    public void deleteById(Integer goalId) {
+        QGoal g = QGoal.goal;
+
+        jpaQueryFactory.delete(g)
+                .where(g.id.eq(goalId))
+                .execute();
+    }
+
+    @Transactional
+    public void deleteByCategoryId(Integer categoryId) {
+        QGoal g = QGoal.goal;
+
+        jpaQueryFactory.delete(g)
+                .where(g.category.id.eq(categoryId))
+                .execute();
+    }
 }
