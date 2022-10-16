@@ -29,6 +29,7 @@ public class TodoServiceImpl implements TodoService {
         User user = userRepository.findByEmail(email).get();
         Category category = addTodoReq.getCategoryId() == -1? null : categoryRepository.findById(addTodoReq.getCategoryId()).get();
         Goal goal = addTodoReq.getGoalId() == -1? null : goalRepository.findById(addTodoReq.getGoalId()).get();
+        if (goal.getCategory().getId() != category.getId()) return null;
 
         Todo todo = todoRepository.save(Todo.builder()
                 .user(user)

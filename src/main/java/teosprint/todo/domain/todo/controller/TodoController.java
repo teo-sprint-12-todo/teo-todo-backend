@@ -33,7 +33,8 @@ public class TodoController {
     public ResponseEntity register(@RequestHeader("Authorization") String token, @RequestBody AddTodoReq addTodoReq) {
         Integer idx = todoService.addTodo(jwtTokenProvider.getUserEmail(token.substring(7)), addTodoReq);
 
-        return new ResponseEntity(DefaultRes.res(StatusCode.OK, "TODO 추가 완료", idx), HttpStatus.OK);
+        return idx == null ? new ResponseEntity(DefaultRes.res(StatusCode.OK, "잘못된 TODO 정보 (추가 실패)", idx), HttpStatus.OK):
+                new ResponseEntity(DefaultRes.res(StatusCode.OK, "TODO 추가 완료", idx), HttpStatus.OK);
     }
 
     @PostMapping("/update")
