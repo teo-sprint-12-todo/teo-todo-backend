@@ -39,8 +39,10 @@ public class UserServiceImpl implements UserService {
         if (!userRepository.existsByEmail(signInDto.getEmail())) return null;
         User user = userRepository.findByEmail(signInDto.getEmail()).get();
 
-        if (passwordEncoder.matches(signInDto.getPassword(), user.getPassword()));
-        return jwtTokenProvider.createToken(user.getEmail(), "USER");
+        if (passwordEncoder.matches(signInDto.getPassword(), user.getPassword())) {
+            return jwtTokenProvider.createToken(user.getEmail(), "USER");
+        }
+        else return null;
     }
 
     @Override

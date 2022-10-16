@@ -6,6 +6,7 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import org.springframework.stereotype.Service;
 import teosprint.todo.domain.review.data.dto.req.AddReviewReq;
+import teosprint.todo.domain.review.data.dto.res.ReviewLastRes;
 import teosprint.todo.domain.review.data.dto.res.ReviewListRes;
 import teosprint.todo.domain.review.data.entity.Review;
 import teosprint.todo.domain.review.repository.ReviewRepository;
@@ -55,7 +56,41 @@ public class ReviewServiceImpl implements ReviewService{
         LocalDate endDate = getLastEndDate(nowDate, periodType);
         LocalDate startDate = getLastStartDate(endDate, periodType);
 
-        return reviewRepositorySupport.existByUserAndNowDate(user.getId(), startDate, endDate);
+        return reviewRepositorySupport.existByUserAndNowDate(user.getId(), startDate, endDate) != null;
+    }
+
+    @Override
+    public ReviewListRes getLastStat(String email, String periodType) {
+        User user = userRepository.findByEmail(email).get();
+        LocalDate nowDate = LocalDate.now();
+        LocalDate endDate = getLastEndDate(nowDate, periodType);
+        LocalDate startDate = getLastStartDate(endDate, periodType);
+
+        // ReviewLastRes stat = reviewRepositorySupport.getLastTodoStat(user.getId(), startDate, endDate);
+        Integer totalCnt = reviewRepositorySupport.getLastTotalCnt(user.getId(), startDate, endDate);
+        Integer doneCnt = reviewRepositorySupport.getLastDoneCnt(user.getId(), startDate, endDate);
+        Integer percent = totalCnt == 0? 0 : (doneCnt * 100) / totalCnt;
+
+        System.out.println(reviewRepositorySupport.getLastTotalCnt(user.getId(), startDate, endDate) + " =============" + startDate + " " + endDate);
+        ReviewListRes res = ReviewListRes.builder()
+                .startDate(startDate)
+                .endDate(endDate)
+                .periodType(periodType)
+                .totalCnt(totalCnt)
+                .doneCnt(doneCnt)
+                .percent(percent).build();
+
+        Review currReview = reviewRepositorySupport.existByUserAndNowDate(user.getId(), startDate, endDate);
+        if (currReview != null) {
+            res.setId(currReview.getId());
+            res.setText(currReview.getText());
+        }
+        else {
+            res.setId(null);
+            res.setText(null);
+        }
+
+        return res;
     }
 
     private LocalDate getLastEndDate(LocalDate nowDate, String periodType) {
@@ -81,7 +116,7 @@ public class ReviewServiceImpl implements ReviewService{
     private LocalDate getLastStartDate(LocalDate endDate, String periodType) {
         LocalDate date = endDate;
 
-        if (periodType.equals("WEEK") || periodType.equals("week")) { date.minusDays(6);}
+        if (periodType.equals("WEEK") || periodType.equals("week")) { date = date.minusDays(6);}
         else if (periodType.equals("MONTH") || periodType.equals("month")) { return LocalDate.of(date.getYear(), date.getMonth(), 1); }
         else { return LocalDate.of(date.getYear(), 1, 1); }
 

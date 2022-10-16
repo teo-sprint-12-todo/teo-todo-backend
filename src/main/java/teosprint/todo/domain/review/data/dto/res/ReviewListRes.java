@@ -1,6 +1,7 @@
 package teosprint.todo.domain.review.data.dto.res;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -23,6 +24,7 @@ public class ReviewListRes {
     public ReviewListRes() {
     }
 
+    @Builder
     public ReviewListRes(Integer id, String periodType, String text, LocalDate startDate, LocalDate endDate, Integer totalCnt, Integer doneCnt, Integer percent) {
         this.id = id;
         this.periodType = periodType;

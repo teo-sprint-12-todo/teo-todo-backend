@@ -37,6 +37,15 @@ public class ReviewController {
 
     }
 
+    @GetMapping("/stat/last/{periodType}")
+    public ResponseEntity getLast(@RequestHeader("Authorization") String token, @PathVariable("periodType") String periodType) {
+        ReviewListRes res = reviewService.getLastStat(jwtTokenProvider.getUserEmail(token.substring(7)), periodType);
+        String msg = res.getId() == null ? "작성된 회고 없음" : "이미 회고 작성 완료";
+
+        return new ResponseEntity(DefaultRes.res(StatusCode.OK, msg, res), HttpStatus.OK);
+
+    }
+
     @PostMapping("/add")
     public ResponseEntity register(@RequestHeader("Authorization") String token, @RequestBody AddReviewReq addReviewReq) {
         Integer idx = reviewService.addReview(jwtTokenProvider.getUserEmail(token.substring(7)), addReviewReq);
