@@ -9,4 +9,5 @@ import java.util.*;
 public interface ReviewService {
     public Integer addReview(String email, AddReviewReq addReviewReq);
     public List<ReviewListRes> getReviewList(String email, String periodType);
+    public Boolean getPossible(String email, String periodType);
 }

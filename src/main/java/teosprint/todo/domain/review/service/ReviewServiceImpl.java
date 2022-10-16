@@ -26,8 +26,10 @@ public class ReviewServiceImpl implements ReviewService{
     public Integer addReview(String email, AddReviewReq addReviewReq) {
         User user = userRepository.findByEmail(email).get();
         LocalDate nowDate = LocalDate.now();
-        LocalDate endDate = getLastEndDate(nowDate);
-        LocalDate startDate = endDate.minusDays(6);
+        LocalDate endDate = getLastEndDate(nowDate, addReviewReq.getPeriodType());
+        LocalDate startDate = getLastStartDate(endDate, addReviewReq.getPeriodType());
+
+        if (getPossible(email, addReviewReq.getPeriodType())) return null;
 
 
         return reviewRepository.save(Review.builder()
@@ -46,12 +48,42 @@ public class ReviewServiceImpl implements ReviewService{
         return reviewRepositorySupport.getAllReviewByPeriodType(user.getId(), periodType);
     }
 
-    private LocalDate getLastEndDate(LocalDate nowDate) {
-        LocalDate date = nowDate.minusDays(1);
+    @Override
+    public Boolean getPossible(String email, String periodType) {
+        User user = userRepository.findByEmail(email).get();
+        LocalDate nowDate = LocalDate.now();
+        LocalDate endDate = getLastEndDate(nowDate, periodType);
+        LocalDate startDate = getLastStartDate(endDate, periodType);
 
-        while(!date.getDayOfWeek().equals(DayOfWeek.SUNDAY)) {
-            date = date.minusDays(1);
+        return reviewRepositorySupport.existByUserAndNowDate(user.getId(), startDate, endDate);
+    }
+
+    private LocalDate getLastEndDate(LocalDate nowDate, String periodType) {
+        if (periodType.equals("WEEK") || periodType.equals("week")) {
+            LocalDate date = nowDate.minusDays(1);
+
+            while(!date.getDayOfWeek().equals(DayOfWeek.SUNDAY)) {
+                date = date.minusDays(1);
+            }
+
+            return date;
         }
+        else if (periodType.equals("MONTH") || periodType.equals("month")) {
+            LocalDate date = nowDate.minusMonths(1);
+            return LocalDate.of(date.getYear(), date.getMonth(), date.lengthOfMonth());
+        }
+        else {
+            LocalDate date = nowDate.minusYears(1);
+            return LocalDate.of(date.getYear(), 12, 31);
+        }
+    }
+
+    private LocalDate getLastStartDate(LocalDate endDate, String periodType) {
+        LocalDate date = endDate;
+
+        if (periodType.equals("WEEK") || periodType.equals("week")) { date.minusDays(6);}
+        else if (periodType.equals("MONTH") || periodType.equals("month")) { return LocalDate.of(date.getYear(), date.getMonth(), 1); }
+        else { return LocalDate.of(date.getYear(), 1, 1); }
 
         return date;
     }

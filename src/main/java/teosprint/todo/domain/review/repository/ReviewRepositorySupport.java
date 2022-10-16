@@ -6,6 +6,7 @@ import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 import org.springframework.stereotype.Repository;
+import java.time.LocalDate;
 import teosprint.todo.domain.review.data.dto.res.ReviewListRes;
 import teosprint.todo.domain.review.data.entity.QReview;
 import teosprint.todo.domain.review.data.entity.Review;
@@ -44,6 +45,7 @@ public class ReviewRepositorySupport extends QuerydslRepositorySupport {
                 .where(r.periodType.eq(periodType))
                 .fetch();
 
+        // 임시 순회
         for (ReviewListRes review: res) {
             review.setPercent( review.getDoneCnt() * 100 / review.getTotalCnt() );
         }
@@ -51,4 +53,14 @@ public class ReviewRepositorySupport extends QuerydslRepositorySupport {
         return  res;
     }
 
+    public Boolean existByUserAndNowDate(Integer userId, LocalDate startDate, LocalDate endDate) {
+        QReview r = QReview.review;
+
+        List<Review> res =jpaQueryFactory.select(r)
+                .from(r)
+                .where(r.startDate.eq(startDate).and(r.endDate.eq(endDate)).and(r.user.id.eq(userId)))
+                .fetch();
+
+        return res.size() != 0;
+    }
 }
