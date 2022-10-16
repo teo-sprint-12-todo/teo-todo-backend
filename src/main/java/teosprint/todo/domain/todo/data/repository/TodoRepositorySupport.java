@@ -1,19 +1,13 @@
 package teosprint.todo.domain.todo.data.repository;
 
 import com.querydsl.core.BooleanBuilder;
-import com.querydsl.core.types.Expression;
 import com.querydsl.core.types.Projections;
-import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import io.swagger.models.auth.In;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-import teosprint.todo.domain.todo.data.dto.res.GoalStatListRes;
 import teosprint.todo.domain.todo.data.dto.res.TodoListRes;
 import teosprint.todo.domain.todo.data.entity.*;
-import teosprint.todo.domain.todo.data.entity.sub.QGoalTotalQuery;
-import teosprint.todo.domain.user.data.entity.User;
 
 import java.util.*;
 
@@ -136,5 +130,34 @@ public class TodoRepositorySupport extends QuerydslRepositorySupport {
                 .orderBy(t.endDate.asc())
                 .fetch();
 
+    }
+
+    @Transactional
+    public void deleteById(Integer todoId) {
+        QTodo t = QTodo.todo;
+
+        jpaQueryFactory.delete(t)
+                .where(t.id.eq(todoId))
+                .execute();
+    }
+
+    @Transactional
+    public void removeGoalByGoalId(Integer goalId) {
+        QTodo t = QTodo.todo;
+
+        jpaQueryFactory.update(t)
+                .setNull(t.goal)
+                .where(t.goal.id.eq(goalId))
+                .execute();
+    }
+
+    @Transactional
+    public void removeCategoryByCategoryId(Integer categoryId) {
+        QTodo t = QTodo.todo;
+
+        jpaQueryFactory.update(t)
+                .setNull(t.category)
+                .where(t.category.id.eq(categoryId))
+                .execute();
     }
 }

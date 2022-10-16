@@ -43,6 +43,13 @@ public class TodoController {
         return new ResponseEntity(DefaultRes.res(StatusCode.OK, "TODO 수정 완료", idx), HttpStatus.OK);
     }
 
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity delete(@RequestHeader("Authorization") String token,  @PathVariable("id") String idStr) {
+        todoService.deleteTodo(Integer.parseInt(idStr));
+
+        return new ResponseEntity(DefaultRes.res(StatusCode.OK, "TODO 삭제 완료", idStr), HttpStatus.OK);
+    }
+
     @GetMapping("/list")
     public ResponseEntity mainList(@RequestHeader("Authorization") String token,
                                  @RequestParam("category") Optional<String> categoryStr) {
