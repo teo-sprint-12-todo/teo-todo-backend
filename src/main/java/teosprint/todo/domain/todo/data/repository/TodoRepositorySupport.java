@@ -157,6 +157,7 @@ public class TodoRepositorySupport extends QuerydslRepositorySupport {
 
         jpaQueryFactory.update(t)
                 .setNull(t.category)
+                .setNull(t.goal)
                 .where(t.category.id.eq(categoryId))
                 .execute();
     }

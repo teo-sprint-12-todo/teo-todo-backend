@@ -8,6 +8,8 @@ import teosprint.todo.domain.todo.data.dto.req.UpdateCategoryReq;
 import teosprint.todo.domain.todo.data.entity.Category;
 import teosprint.todo.domain.todo.data.repository.CategoryRepository;
 import teosprint.todo.domain.todo.data.repository.CategoryRepositorySupport;
+import teosprint.todo.domain.todo.data.repository.GoalRepositorySupport;
+import teosprint.todo.domain.todo.data.repository.TodoRepositorySupport;
 import teosprint.todo.domain.user.data.entity.User;
 import teosprint.todo.domain.user.repository.UserRepository;
 
@@ -19,6 +21,8 @@ public class CategoryServiceImpl implements CategoryService{
     private final UserRepository userRepository;
     private final CategoryRepository categoryRepository;
     private final CategoryRepositorySupport categoryRepositorySupport;
+    private final TodoRepositorySupport todoRepositorySupport;
+    private final GoalRepositorySupport goalRepositorySupport;
 
     @Override
     public Integer addCategory(String email, AddCategoryReq addCategoryReq) {
@@ -40,6 +44,9 @@ public class CategoryServiceImpl implements CategoryService{
 
     @Override
     public void deleteCategory(Integer id) {
+        todoRepositorySupport.removeCategoryByCategoryId(id);
+        goalRepositorySupport.deleteByCategoryId(id);
+        categoryRepositorySupport.deleteById(id);
     }
 
     @Override

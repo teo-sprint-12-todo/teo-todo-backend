@@ -37,6 +37,13 @@ public class CategoryController {
         return new ResponseEntity(DefaultRes.res(StatusCode.OK, "카테고리 수정 완료", idx), HttpStatus.OK);
     }
 
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity delete(@RequestHeader("Authorization") String token,  @PathVariable("id") String idStr) {
+        categoryService.deleteCategory(Integer.parseInt(idStr));
+
+        return new ResponseEntity(DefaultRes.res(StatusCode.OK, "카테고리 삭제 완료", idStr), HttpStatus.OK);
+    }
+
     @GetMapping("/list")
     public ResponseEntity update(@RequestHeader("Authorization") String token) {
         List<CategoryListRes> categoryList = categoryService.getAllCategory(jwtTokenProvider.getUserEmail(token.substring(7)));
