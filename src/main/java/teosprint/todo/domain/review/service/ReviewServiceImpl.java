@@ -29,7 +29,8 @@ public class ReviewServiceImpl implements ReviewService{
         LocalDate endDate = getLastEndDate(nowDate, addReviewReq.getPeriodType());
         LocalDate startDate = getLastStartDate(endDate, addReviewReq.getPeriodType());
 
-        if (getPossible(email, addReviewReq.getPeriodType())) return null;
+        if (getPossible(email, addReviewReq.getPeriodType())) return null;  // 이미 회고를 작성하였으면
+        if (addReviewReq.getText().equals(""))  return null; // 공백이면
 
 
         return reviewRepository.save(Review.builder()

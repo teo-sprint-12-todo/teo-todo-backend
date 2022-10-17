@@ -28,6 +28,8 @@ public class CategoryServiceImpl implements CategoryService{
     public Integer addCategory(String email, AddCategoryReq addCategoryReq) {
         User user = userRepository.findByEmail(email).get();
 
+        if (addCategoryReq.getName().equals("")) return null;
+
         return categoryRepository.save(Category.builder()
                 .user(user)
                 .name(addCategoryReq.getName())

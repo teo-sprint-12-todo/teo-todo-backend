@@ -27,7 +27,8 @@ public class CategoryController {
     public ResponseEntity register(@RequestHeader("Authorization") String token, @RequestBody AddCategoryReq addCategoryReq) {
         Integer idx = categoryService.addCategory(jwtTokenProvider.getUserEmail(token.substring(7)), addCategoryReq);
 
-        return new ResponseEntity(DefaultRes.res(StatusCode.OK, "카테고리 추가 완료", idx), HttpStatus.OK);
+        return idx != null ? new ResponseEntity(DefaultRes.res(StatusCode.OK, "카테고리 추가 완료", idx), HttpStatus.OK) :
+                new ResponseEntity(DefaultRes.res(StatusCode.OK, "문자열 잘못된 요청", idx), HttpStatus.OK);
     }
 
     @PostMapping("/update")
