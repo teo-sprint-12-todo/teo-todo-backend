@@ -24,7 +24,8 @@ public class TodoApplication {
 		return new WebMvcConfigurer() {
 			@Override
 			public void addCorsMappings(@NotNull CorsRegistry registry) {
-				registry.addMapping("/**").allowedOrigins("http://front-server.com/", "http://localhost:3000");
+				registry.addMapping("/**")
+						.allowedOrigins("https://teo-sprint-12-todo.github.io/teo-todo-frontend", "http://localhost:3000", "https://localhost:3000", "**", "https://teo-sprint-12-todo.github.io/teo-todo-frontend:3000", "https://teo-sprint-12-todo.github.io");
 			}
 		};
 	}
