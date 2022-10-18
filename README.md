@@ -160,5 +160,5 @@ UI 컴포넌트와, 로직 컴포넌트의 분리
 /hooks -->
 
 
-### teo-todo-backend
+### todo-ddodo-erd
 <img src="/todo-erd.PNG" width="100%" />
