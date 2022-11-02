@@ -6,10 +6,10 @@ import teosprint.todo.domain.todo.data.dto.req.AddTodoReq;
 import teosprint.todo.domain.todo.data.dto.req.UpdateTodoReq;
 import teosprint.todo.domain.todo.data.dto.res.TodoListRes;
 import teosprint.todo.domain.todo.data.entity.*;
-import teosprint.todo.domain.todo.data.repository.CategoryRepository;
-import teosprint.todo.domain.todo.data.repository.GoalRepository;
-import teosprint.todo.domain.todo.data.repository.TodoRepository;
-import teosprint.todo.domain.todo.data.repository.TodoRepositorySupport;
+import teosprint.todo.domain.todo.repository.CategoryRepository;
+import teosprint.todo.domain.todo.repository.GoalRepository;
+import teosprint.todo.domain.todo.repository.TodoRepository;
+import teosprint.todo.domain.todo.repository.TodoRepositorySupport;
 import teosprint.todo.domain.user.data.entity.User;
 import teosprint.todo.domain.user.repository.UserRepository;
 

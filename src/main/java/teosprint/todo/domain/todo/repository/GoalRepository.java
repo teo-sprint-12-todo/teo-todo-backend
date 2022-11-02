@@ -1,4 +1,4 @@
-package teosprint.todo.domain.todo.data.repository;
+package teosprint.todo.domain.todo.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import teosprint.todo.domain.todo.data.entity.Goal;
